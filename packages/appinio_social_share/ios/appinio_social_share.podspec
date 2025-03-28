@@ -17,7 +17,7 @@ A new Flutter project.
   s.dependency 'Flutter'
   s.dependency 'FBSDKLoginKit', '~> 17.1.0'
   s.dependency 'FBSDKShareKit', '~> 17.1.0'
-  s.dependency 'FBSDKCoreKit', '~> 17.1.0'
+  s.dependency 'FBSDKCoreKit', '~> 17.0.2'
   s.static_framework = true
 
   s.platform     = :ios
