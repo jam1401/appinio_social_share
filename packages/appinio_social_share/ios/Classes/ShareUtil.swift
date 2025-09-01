@@ -278,15 +278,19 @@ public class ShareUtil{
         var characterSet = CharacterSet.urlQueryAllowed
         characterSet.insert(charactersIn: "?&")
         let whatsAppURL  = NSURL(string: whatsURL.addingPercentEncoding(withAllowedCharacters: characterSet)!)
-        if UIApplication.shared.canOpenURL(whatsAppURL! as URL)
-        {
+        if #available(iOS 18, *) {
             UIApplication.shared.open(whatsAppURL! as URL, options: [:], completionHandler: nil)
             result(SUCCESS);
-        }
-        else
-        {
-            UIApplication.shared.open(whatsAppURL! as URL, options: [:], completionHandler: nil)
-            result(SUCCESS);
+        } else {  
+            if UIApplication.shared.canOpenURL(whatsAppURL! as URL)
+            {
+                UIApplication.shared.open(whatsAppURL! as URL, options: [:], completionHandler: nil)
+                result(SUCCESS);
+            }
+            else
+            {
+                result(ERROR_APP_NOT_AVAILABLE);
+            }
         }
     }
     
@@ -354,15 +358,26 @@ public class ShareUtil{
         if #available(iOS 10, *){
             let message = args[self.argMessage] as? String
             let urlString = "instagram://sharesheet?text=\(message!)"
-            // if(!canOpenUrl(appName: "instagram")){
-            //     result(ERROR_APP_NOT_AVAILABLE)
-            //     return
-            // }
+            
+            if #available(iOS 18, *) {
             if let url = URL(string: urlString.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!) {
                 UIApplication.shared.open(url, options: [:], completionHandler: nil)
                 result(SUCCESS)
             }else{
                 result(ERROR)
+            }
+            } else {
+                if(!canOpenUrl(appName: "instagram")){
+                 result(ERROR_APP_NOT_AVAILABLE)
+                 return
+                }
+
+                if let url = URL(string: urlString.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!) {
+                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                    result(SUCCESS)
+                }else{
+                    result(ERROR)
+                }
             }
         }else{
             result(ERROR_FEATURE_NOT_AVAILABLE_FOR_THIS_VERSON)
@@ -376,19 +391,31 @@ public class ShareUtil{
         if #available(iOS 10, *){
             let message = args[self.argMessage] as? String
             let urlString = "fb-messenger://share/?link=\(message!)"
-            // if(!canOpenUrl(appName: "fb-messenger")){
-            //     result(ERROR_APP_NOT_AVAILABLE)
-            //     return
-            // }
-            if let url = URL(string: urlString.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!) {
-                UIApplication.shared.open(url, options: [:], completionHandler: nil)
-                result(SUCCESS)
-            }else{
-                result(ERROR)
+            
+            if #available(iOS 18, *) {
+               if let url = URL(string: urlString.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!) {
+                            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                            result(SUCCESS)
+                        }else{
+                            result(ERROR)
+                        }
+            } else {
+                    if(!canOpenUrl(appName: "fb-messenger")){
+                         result(ERROR_APP_NOT_AVAILABLE)
+                         return
+                     }
+        
+                    if let url = URL(string: urlString.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!) {
+                        UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                        result(SUCCESS)
+                    }else{
+                        result(ERROR)
+                    }
             }
         }else{
             result(ERROR_FEATURE_NOT_AVAILABLE_FOR_THIS_VERSON)
         }
+        
     }
     
     public func shareToSms(args : [String: Any?],result: @escaping FlutterResult){
