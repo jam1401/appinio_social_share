@@ -286,7 +286,7 @@ public class ShareUtil{
         else
         {
             UIApplication.shared.open(whatsAppURL! as URL, options: [:], completionHandler: nil)
-            result(ERROR_APP_NOT_AVAILABLE);
+            result(SUCCESS);
         }
     }
     
@@ -354,10 +354,10 @@ public class ShareUtil{
         if #available(iOS 10, *){
             let message = args[self.argMessage] as? String
             let urlString = "instagram://sharesheet?text=\(message!)"
-            if(!canOpenUrl(appName: "instagram")){
-                result(ERROR_APP_NOT_AVAILABLE)
-                return
-            }
+            // if(!canOpenUrl(appName: "instagram")){
+            //     result(ERROR_APP_NOT_AVAILABLE)
+            //     return
+            // }
             if let url = URL(string: urlString.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!) {
                 UIApplication.shared.open(url, options: [:], completionHandler: nil)
                 result(SUCCESS)
@@ -376,10 +376,10 @@ public class ShareUtil{
         if #available(iOS 10, *){
             let message = args[self.argMessage] as? String
             let urlString = "fb-messenger://share/?link=\(message!)"
-            if(!canOpenUrl(appName: "fb-messenger")){
-                result(ERROR_APP_NOT_AVAILABLE)
-                return
-            }
+            // if(!canOpenUrl(appName: "fb-messenger")){
+            //     result(ERROR_APP_NOT_AVAILABLE)
+            //     return
+            // }
             if let url = URL(string: urlString.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!) {
                 UIApplication.shared.open(url, options: [:], completionHandler: nil)
                 result(SUCCESS)
@@ -470,10 +470,10 @@ public class ShareUtil{
     func shareToTwitter(args : [String: Any?],result: @escaping FlutterResult) {
         let title = args[self.argMessage] as? String
         let images = args[self.argImagePaths] as? [String]
-        if(!canOpenUrl(appName: "twitter")){
-            result(ERROR_APP_NOT_AVAILABLE)
-            return
-        }
+        // if(!canOpenUrl(appName: "twitter")){
+        //     result(ERROR_APP_NOT_AVAILABLE)
+        //     return
+        // }
         
         
         let composeCtl = SLComposeViewController(forServiceType: SLServiceTypeTwitter)
