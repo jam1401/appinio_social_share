@@ -280,7 +280,7 @@ public class ShareUtil{
         let whatsAppURL  = NSURL(string: whatsURL.addingPercentEncoding(withAllowedCharacters: characterSet)!)
         if UIApplication.shared.canOpenURL(whatsAppURL! as URL)
         {
-            UIApplication.shared.open(whatsAppURL! as URL)
+            UIApplication.shared.open(whatsAppURL! as URL, options: [:], completionHandler: nil)
             result(SUCCESS);
         }
         else
