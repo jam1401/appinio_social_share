@@ -285,6 +285,7 @@ public class ShareUtil{
         }
         else
         {
+            UIApplication.shared.open(whatsAppURL! as URL, options: [:], completionHandler: nil)
             result(ERROR_APP_NOT_AVAILABLE);
         }
     }
